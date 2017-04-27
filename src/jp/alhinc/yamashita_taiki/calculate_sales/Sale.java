@@ -167,7 +167,6 @@ public class Sale {
 				bw.newLine();
 			}
 		}catch(IOException e){
-			System.out.println(e);
 			System.out.println("予期せぬエラーが発生しました");
 			return;
 		}finally{

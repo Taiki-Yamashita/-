@@ -23,7 +23,7 @@ public class Sale {
 		//商品コードと売上のマップ
 		File file =null;
 		BufferedReader br=null;
-		if(args[0]==null&&args.length>=2){
+		if(args[0]==null||args.length>=2){
 			return;
 		}
 		try{

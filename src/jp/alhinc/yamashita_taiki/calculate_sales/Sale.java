@@ -98,7 +98,7 @@ public class Sale {
 		String[]fileList=dir.list();
 
 		for(int i=0;i<fileList.length;i++){
-			if(fileList[i].matches("\\d{8}.rcd")){
+			if(fileList[i].matches("\\d{8}.rcd")&&new File(args[0], fileList[i]).isFile()){
 				bring.add(fileList[i]);
 				String[] con = fileList[i].split("\\.");
 				sum.add(Integer.parseInt(con[0]));
@@ -110,10 +110,11 @@ public class Sale {
 			if(sum.size()!=last-first+1){
 			System.out.println("売上ファイル名が連番になっていません");
 			return;
+
 		}
 		try{
 			for(int i=0;i<bring.size();i++){
-				File fl=new File(args[0],fileList[i]);
+				File fl=new File(args[0],bring.get(i));
 				FileReader fr=new FileReader(fl);
 				br=new BufferedReader(fr);
 				ArrayList<String> sales=new ArrayList<String>();
@@ -136,6 +137,7 @@ public class Sale {
 				if(!sales.get(2).matches("\\d+")){
 					System.out.println("予期せぬエラーが発生しました");
 					return;
+
 				}
 
 				long x=branchsalesmap.get(sales.get(0)).longValue();

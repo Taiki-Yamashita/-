@@ -56,6 +56,7 @@ public class Sale {
 		}finally{
 			br.close();
 		}
+
 		try{
 			file =new File(args[0],"commodity.lst");
 			if(!file.exists()){
@@ -83,30 +84,30 @@ public class Sale {
 		}finally{
 			br.close();
 		}
+
 		ArrayList<Integer> sum=new ArrayList<Integer>();
+		//連番チェック用ファイル
 		ArrayList<String> bring=new ArrayList<String>();
+		//売上ファイル抽出用ファイル
 		File dir =new File(args[0]);
 		String[]fileList=dir.list();
 		for(int i=0;i<fileList.length;i++){
-			if(fileList[i].matches("\\d{8}\\.rcd")){
-				if(!fileList[i].matches("\\d{8}\\.rcd")){
-				System.out.println("売上ファイル名が連番になっていません");
-				return;
-				}
+			if(fileList[i].matches("\\d{8}.rcd")){
 				bring.add(fileList[i]);
-				File fl=new File(args[0],fileList[i]);
-				FileReader fr=new FileReader(fl);
-				br=new BufferedReader(fr);
+
+
 				String[] con = fileList[i].split("\\.");
 				sum.add(Integer.parseInt(con[0]));
-				Collections.sort(sum);
-				int first=(sum.get(0));
-				int last=(sum.get(sum.size()-1));
-				if(sum.size()!=last-first+1){
-					System.out.println("売上ファイル名が連番になっていません");
-					return;
-				}
+
 			}
+		}
+
+		Collections.sort(sum);
+		int first=(sum.get(0));
+		int last=(sum.get(sum.size()-1));
+		if(sum.size()!=last-first+1){
+			System.out.println("売上ファイル名が連番になっていません");
+			return;
 		}
 
 		try{

@@ -106,7 +106,7 @@ public class Sale {
 					while((s=br.readLine())!=null){
 						sales.add(s);
 					}
-					br.close();
+
 
 					if(sales.size()!=3){
 						System.out.println(fileList[i]+"のフォーマットが不正です");
@@ -121,7 +121,7 @@ public class Sale {
 						System.out.println(fileList[i]+"の商品コードが不正です");
 						return;
 					}
-					if(sales.get(2).matches("d+")){
+					if(!sales.get(2).matches("\\d+")){
 						System.out.println("予期せぬエラーが発生しました");
 						return;
 					}
@@ -149,11 +149,13 @@ public class Sale {
 			int y=(sum.get(0));
 			int z=(sum.get(sum.size()-1));
 			if(sum.size()!=z-y+1){
-				System.out.println("売上ファイルが連番になっていません");
+				System.out.println("売上ファイル名が連番になっていません");
 				return;
 			}
 		}catch(IOException e){
 				System.out.println("予期せぬエラーが発生しました");
+		}finally{
+			br.close();
 		}
 		List<Entry<String, Long>> branchentries = new ArrayList<Entry<String, Long>>(branchsalesmap.entrySet());
 			Collections.sort(branchentries, new Comparator<Entry<String, Long>>() {

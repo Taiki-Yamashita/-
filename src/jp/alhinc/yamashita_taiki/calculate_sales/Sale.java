@@ -23,10 +23,12 @@ public class Sale {
 		//商品コードと売上のマップ
 		File file =null;
 		BufferedReader br=null;
+
 		if(args.length!=1){
 			System.out.println("予期せぬエラーが発生しました");
 			return;
 		}
+
 		try{
 			file =new File(args[0],"branch.lst");
 			if(!file.exists()){
@@ -53,12 +55,14 @@ public class Sale {
 		}catch(IOException e){
 			System.out.println("予期せぬエラーが発生しました");
 			return;
+
 		}finally{
 			br.close();
 		}
 
 		try{
 			file =new File(args[0],"commodity.lst");
+
 			if(!file.exists()){
 				System.out.println("商品定義ファイルが存在しません");
 				return;
@@ -81,16 +85,18 @@ public class Sale {
 		}catch(IOException e){
 			System.out.println("予期せぬエラーが発生しました");
 			return;
+
 		}finally{
 			br.close();
 		}
 
-			ArrayList<Integer> sum=new ArrayList<Integer>();
-			//連番チェック用ファイル
-			ArrayList<String> bring=new ArrayList<String>();
-			//売上ファイル抽出用ファイル
-			File dir =new File(args[0]);
-			String[]fileList=dir.list();
+		ArrayList<Integer> sum=new ArrayList<Integer>();
+		//連番チェック用ファイル
+		ArrayList<String> bring=new ArrayList<String>();
+		//売上ファイル抽出用ファイル
+		File dir =new File(args[0]);
+		String[]fileList=dir.list();
+
 		for(int i=0;i<fileList.length;i++){
 			if(fileList[i].matches("\\d{8}.rcd")){
 				bring.add(fileList[i]);
@@ -154,9 +160,11 @@ public class Sale {
 			}
 		}catch(IOException e){
 				System.out.println("予期せぬエラーが発生しました");
+
 		}finally{
 			br.close();
 		}
+
 		List<Entry<String, Long>> branchentries = new ArrayList<Entry<String, Long>>(branchsalesmap.entrySet());
 			Collections.sort(branchentries, new Comparator<Entry<String, Long>>() {
 			   @Override
@@ -208,8 +216,4 @@ public class Sale {
 		}
 	}
 
-	private static String bring(int i) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
 }

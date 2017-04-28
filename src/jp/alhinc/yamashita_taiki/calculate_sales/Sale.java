@@ -30,7 +30,7 @@ public class Sale {
 		try{
 			file =new File(args[0],"branch.lst");
 			if(!file.exists()){
-				System.out.println("支店定義ファイルはが存在しません");
+				System.out.println("支店定義ファイルが存在しません");
 				return;
 			}
 			br=new BufferedReader(new FileReader(file));
@@ -85,76 +85,70 @@ public class Sale {
 			br.close();
 		}
 
-		ArrayList<Integer> sum=new ArrayList<Integer>();
-		//連番チェック用ファイル
-		ArrayList<String> bring=new ArrayList<String>();
-		//売上ファイル抽出用ファイル
-		File dir =new File(args[0]);
-		String[]fileList=dir.list();
+			ArrayList<Integer> sum=new ArrayList<Integer>();
+			//連番チェック用ファイル
+			ArrayList<String> bring=new ArrayList<String>();
+			//売上ファイル抽出用ファイル
+			File dir =new File(args[0]);
+			String[]fileList=dir.list();
 		for(int i=0;i<fileList.length;i++){
 			if(fileList[i].matches("\\d{8}.rcd")){
 				bring.add(fileList[i]);
-
-
 				String[] con = fileList[i].split("\\.");
 				sum.add(Integer.parseInt(con[0]));
-
 			}
 		}
-
-		Collections.sort(sum);
-		int first=(sum.get(0));
-		int last=(sum.get(sum.size()-1));
-		if(sum.size()!=last-first+1){
+			Collections.sort(sum);
+			int first=(sum.get(0));
+			int last=(sum.get(sum.size()-1));
+			if(sum.size()!=last-first+1){
 			System.out.println("売上ファイル名が連番になっていません");
 			return;
 		}
-
 		try{
 			for(int i=0;i<bring.size();i++){
 				File fl=new File(args[0],fileList[i]);
 				FileReader fr=new FileReader(fl);
 				br=new BufferedReader(fr);
-			ArrayList<String> sales=new ArrayList<String>();
-			String s;
-					while((s=br.readLine())!=null){
-						sales.add(s);
-					}
-					if(sales.size()!=3){
-						System.out.println(fileList[i]+"のフォーマットが不正です");
-						return;
-					}
-					if(branchsalesmap.containsKey(sales.get(0))==false){
-						System.out.println(fileList[i]+"の支店コードが不正です");
-						return;
-					}
+				ArrayList<String> sales=new ArrayList<String>();
+				String s;
+				while((s=br.readLine())!=null){
+					sales.add(s);
+				}
+				if(sales.size()!=3){
+					System.out.println(bring.get(i)+"のフォーマットが不正です");
+					return;
+				}
+				if(branchsalesmap.containsKey(sales.get(0))==false){
+					System.out.println(bring.get(i)+"の支店コードが不正です");
+					return;
+				}
+				if(commoditysalesmap.containsKey(sales.get(1))==false){
+					System.out.println(bring.get(i)+"の商品コードが不正です");
+					return;
+				}
+				if(!sales.get(2).matches("\\d+")){
+					System.out.println("予期せぬエラーが発生しました");
+					return;
+				}
 
-					if(commoditysalesmap.containsKey(sales.get(1))==false){
-						System.out.println(fileList[i]+"の商品コードが不正です");
-						return;
-					}
-					if(!sales.get(2).matches("\\d+")){
-						System.out.println("予期せぬエラーが発生しました");
-						return;
-					}
+				long x=branchsalesmap.get(sales.get(0)).longValue();
+				long y=commoditysalesmap.get(sales.get(1)).longValue();
+				long z=Long.parseLong(sales.get(2));
+				x+=z;
+				y+=z;
+				if(String.valueOf(x).length()>=10){
+					System.out.println("合計金額が10桁を超えました");
+					return;
+				}
 
-					long x=branchsalesmap.get(sales.get(0)).longValue();
-					long y=commoditysalesmap.get(sales.get(1)).longValue();
-					long z=Long.parseLong(sales.get(2));
-					x+=z;
-					y+=z;
-					if(String.valueOf(x).length()>=10){
-						System.out.println("合計金額が10桁を超えました");
-						return;
-					}
+				if(String.valueOf(y).length()>=10){
+					System.out.println("合計金額が10桁を超えました");
+					return;
+				}
 
-					if(String.valueOf(y).length()>=10){
-						System.out.println("合計金額が10桁を超えました");
-						return;
-					}
-
-					branchsalesmap.put(sales.get(0),x);
-					commoditysalesmap.put(sales.get(1),y);
+				branchsalesmap.put(sales.get(0),x);
+				commoditysalesmap.put(sales.get(1),y);
 
 
 			}
@@ -212,5 +206,10 @@ public class Sale {
 		}finally{
 			bw.close();
 		}
+	}
+
+	private static String bring(int i) {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
 	}
 }

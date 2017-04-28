@@ -23,10 +23,13 @@ public class Sale {
 		//商品コードと売上のマップ
 		File file =null;
 		BufferedReader br=null;
+		if(args[0]==null&&args.length>=2){
+			return;
+		}
 		try{
 			file =new File(args[0],"branch.lst");
 			if(!file.exists()){
-				System.out.println("支店定義ファイルは存在しません");
+				System.out.println("支店定義ファイルはが存在しません");
 				return;
 			}
 			br=new BufferedReader(new FileReader(file));
@@ -55,7 +58,7 @@ public class Sale {
 		try{
 			file =new File(args[0],"commodity.lst");
 			if(!file.exists()){
-				System.out.println("商品定義ファイルは存在しません");
+				System.out.println("商品定義ファイルが存在しません");
 				return;
 			}
 			br=new BufferedReader(new FileReader(file));
@@ -89,7 +92,7 @@ public class Sale {
 				if(fileList[i].matches("\\d{8}\\.rcd")){
 
 					if(!fileList[i].matches("\\d{8}\\.rcd")){
-						System.out.println("売上ファイルが連番になっていません");
+						System.out.println("売上ファイル名が連番になっていません");
 						return;
 					}
 
@@ -116,6 +119,10 @@ public class Sale {
 
 					if(commoditysalesmap.containsKey(sales.get(1))==false){
 						System.out.println(fileList[i]+"の商品コードが不正です");
+						return;
+					}
+					if(sales.get(2).matches("d+")){
+						System.out.println("予期せぬエラーが発生しました");
 						return;
 					}
 

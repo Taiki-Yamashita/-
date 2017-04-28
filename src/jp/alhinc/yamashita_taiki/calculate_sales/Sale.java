@@ -23,7 +23,8 @@ public class Sale {
 		//商品コードと売上のマップ
 		File file =null;
 		BufferedReader br=null;
-		if(args[0]==null||args.length>=2){
+		if(args.length!=1){
+			System.out.println("予期せぬエラーが発生しました");
 			return;
 		}
 		try{
@@ -82,32 +83,42 @@ public class Sale {
 		}finally{
 			br.close();
 		}
-	ArrayList<Integer> sum=new ArrayList<Integer>();
+		ArrayList<Integer> sum=new ArrayList<Integer>();
+		ArrayList<String> bring=new ArrayList<String>();
+		File dir =new File(args[0]);
+		String[]fileList=dir.list();
+		for(int i=0;i<fileList.length;i++){
+			if(fileList[i].matches("\\d{8}\\.rcd")){
+				if(!fileList[i].matches("\\d{8}\\.rcd")){
+				System.out.println("売上ファイル名が連番になっていません");
+				return;
+				}
+				bring.add(fileList[i]);
+				File fl=new File(args[0],fileList[i]);
+				FileReader fr=new FileReader(fl);
+				br=new BufferedReader(fr);
+				String[] con = fileList[i].split("\\.");
+				sum.add(Integer.parseInt(con[0]));
+				Collections.sort(sum);
+				int first=(sum.get(0));
+				int last=(sum.get(sum.size()-1));
+				if(sum.size()!=last-first+1){
+					System.out.println("売上ファイル名が連番になっていません");
+					return;
+				}
+			}
+		}
+
 		try{
-			File dir =new File(args[0]);
-			String[]fileList=dir.list();
-			for(int i=0;i<fileList.length;i++){
-				ArrayList<String> sales=new ArrayList<String>();
-
-				if(fileList[i].matches("\\d{8}\\.rcd")){
-
-					if(!fileList[i].matches("\\d{8}\\.rcd")){
-						System.out.println("売上ファイル名が連番になっていません");
-						return;
-					}
-
-					File fl=new File(args[0],fileList[i]);
-					FileReader fr=new FileReader(fl);
-					br=new BufferedReader(fr);
-					String s;
-					String[] con = fileList[i].split("\\.");
-					sum.add(Integer.parseInt(con[0]));
-
+			for(int i=0;i<bring.size();i++){
+				File fl=new File(args[0],fileList[i]);
+				FileReader fr=new FileReader(fl);
+				br=new BufferedReader(fr);
+			ArrayList<String> sales=new ArrayList<String>();
+			String s;
 					while((s=br.readLine())!=null){
 						sales.add(s);
 					}
-
-
 					if(sales.size()!=3){
 						System.out.println(fileList[i]+"のフォーマットが不正です");
 						return;
@@ -143,14 +154,8 @@ public class Sale {
 
 					branchsalesmap.put(sales.get(0),x);
 					commoditysalesmap.put(sales.get(1),y);
-				}
-			}
-			Collections.sort(sum);
-			int y=(sum.get(0));
-			int z=(sum.get(sum.size()-1));
-			if(sum.size()!=z-y+1){
-				System.out.println("売上ファイル名が連番になっていません");
-				return;
+
+
 			}
 		}catch(IOException e){
 				System.out.println("予期せぬエラーが発生しました");

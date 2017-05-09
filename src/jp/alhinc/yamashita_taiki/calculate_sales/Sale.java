@@ -60,9 +60,9 @@ public class Sale {
 			for(int i=0 ; i<bring.size() ; i++){
 				File fl = new File(args[0] , bring.get(i));
 				br = new BufferedReader(new FileReader(fl));
-				ArrayList<String> sales=new ArrayList<String>();
+				ArrayList<String> sales = new ArrayList<String>();
 				String s;
-				while((s=br.readLine()) != null){
+				while((s = br.readLine()) != null){
 					sales.add(s);
 				}
 				if(sales.size() != 3){
@@ -82,23 +82,23 @@ public class Sale {
 					return;
 				}
 
-				long x=branchsalesmap.get(sales.get(0)).longValue();
-				long y=commoditysalesmap.get(sales.get(1)).longValue();
-				long z=Long.parseLong(sales.get(2));
-				x+=z;
-				y+=z;
-				if(String.valueOf(x).length() > 10){
+				long branchvalue = branchsalesmap.get(sales.get(0)).longValue();
+				long commodityvalue = commoditysalesmap.get(sales.get(1)).longValue();
+				long salevalue = Long.parseLong(sales.get(2));
+				branchvalue+=salevalue;
+				commodityvalue+=salevalue;
+				if(String.valueOf(branchvalue).length() > 10){
 					System.out.println("合計金額が10桁を超えました");
 					return;
 				}
 
-				if(String.valueOf(y).length() > 10){
+				if(String.valueOf(commodityvalue).length() > 10){
 					System.out.println("合計金額が10桁を超えました");
 					return;
 				}
 
-				branchsalesmap.put(sales.get(0),x);
-				commoditysalesmap.put(sales.get(1),y);
+				branchsalesmap.put(sales.get(0),branchvalue);
+				commoditysalesmap.put(sales.get(1),commodityvalue);
 
 
 			}

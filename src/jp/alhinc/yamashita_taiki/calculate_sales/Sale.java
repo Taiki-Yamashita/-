@@ -111,7 +111,7 @@ public class Sale {
 				return;
 			}
 				br.close();
-			
+
 		}
 		if(!salesOut(args[0] , "branch.out" , branchmap , branchsalesmap)){
 			return;
@@ -191,7 +191,7 @@ public class Sale {
 					return false;
 				}
 					bw.close();
-				
+
 			} catch (IOException e) {
 				System.out.println("予期せぬエラーが発生しました");
 			}

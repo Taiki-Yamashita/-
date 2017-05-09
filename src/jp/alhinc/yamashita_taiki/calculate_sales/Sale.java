@@ -17,13 +17,13 @@ public class Sale {
 		//支店コード、支店名のマップ
 		HashMap<String,Long>branchSalesMap = new HashMap<String,Long>();
 		//支店コードと売上のマップ
-		HashMap<String,String>defineCommodityMap = new HashMap<String,String>();
+		HashMap<String,String>defineCommodityMap = new HashMap<>();
 		//商品コード、商品名のマップ
 		HashMap<String,Long>commoditySalesMap = new HashMap<String,Long>();
 		//商品コードと売上のマップ
-		ArrayList<Integer> checkSaleNumber = new ArrayList<Integer>();
+		ArrayList<Integer> continueCheckSalesFile = new ArrayList<Integer>();
 		//連番チェック用ファイル
-		ArrayList<String> bringSaleFile = new ArrayList<String>();
+		ArrayList<String> extractSaleFile = new ArrayList<String>();
 		//売上ファイル抽出用ファイル
 		BufferedReader br = null;
 		if(args.length != 1){
@@ -40,21 +40,21 @@ public class Sale {
 		String[] fileList = dir.list();
 		for(int i=0 ; i<fileList.length ; i++){
 			if(new File(args[0] , fileList[i]).isFile() && fileList[i].matches("\\d{8}.rcd")){
-				bringSaleFile.add(fileList[i]);
+				extractSaleFile.add(fileList[i]);
 				String[] con = fileList[i].split("\\.");
-				checkSaleNumber.add(Integer.parseInt(con[0]));
+				continueCheckSalesFile.add(Integer.parseInt(con[0]));
 			}
 		}
-		Collections.sort(checkSaleNumber);
-		int first = checkSaleNumber.get(0);
-		int last = checkSaleNumber.get(checkSaleNumber.size() - 1);
-		if(checkSaleNumber.size() != last - first + 1){
+		Collections.sort(continueCheckSalesFile);
+		int first = continueCheckSalesFile.get(0);
+		int last = continueCheckSalesFile.get(continueCheckSalesFile.size() - 1);
+		if(continueCheckSalesFile.size() != last - first + 1){
 			System.out.println("売上ファイル名が連番になっていません");
 			return;
 		}
 		try{
-			for(int i = 0 ; i < bringSaleFile.size() ; i++){
-				File fl = new File(args[0] , bringSaleFile.get(i));
+			for(int i = 0 ; i < extractSaleFile.size() ; i++){
+				File fl = new File(args[0] , extractSaleFile.get(i));
 				br = new BufferedReader(new FileReader(fl));
 				ArrayList<String> sales = new ArrayList<String>();
 				String s;
@@ -62,15 +62,15 @@ public class Sale {
 					sales.add(s);
 				}
 				if(sales.size() != 3){
-					System.out.println(bringSaleFile.get(i) + "のフォーマットが不正です");
+					System.out.println(extractSaleFile.get(i) + "のフォーマットが不正です");
 					return;
 				}
 				if(!branchSalesMap.containsKey(sales.get(0))){
-					System.out.println(bringSaleFile.get(i) + "の支店コードが不正です");
+					System.out.println(extractSaleFile.get(i) + "の支店コードが不正です");
 					return;
 				}
 				if(!commoditySalesMap.containsKey(sales.get(1))){
-					System.out.println(bringSaleFile.get(i) + "の商品コードが不正です");
+					System.out.println(extractSaleFile.get(i) + "の商品コードが不正です");
 					return;
 				}
 				if(!sales.get(2).matches("\\d+")){

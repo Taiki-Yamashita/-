@@ -13,6 +13,12 @@ import java.util.List;
 import java.util.Map.Entry;
 public class Sale {
 	public static void main(String[] args) throws IOException{
+
+		if(args.length != 1){
+			System.out.println("予期せぬエラーが発生しました");
+			return;
+		}
+
 		HashMap<String,String>defineBranchMap = new HashMap<>();
 		//支店コード、支店名のマップ
 		HashMap<String,Long>branchSalesMap = new HashMap<>();
@@ -23,15 +29,10 @@ public class Sale {
 		//商品コードと売上のマップ
 		ArrayList<Integer> continueCheckSalesFile = new ArrayList<>();
 		//連番チェック用ファイル
-		ArrayList<String> extractSaleFile = new
-				ArrayList<String>();
+		ArrayList<String> extractSaleFile = new ArrayList<>();
 		//売上ファイル抽出用ファイル
 		BufferedReader br = null;
 
-		if(args.length != 1){
-			System.out.println("予期せぬエラーが発生しました");
-			return;
-		}
 		if(!readDefinitionFile(args[0], "branch.lst", defineBranchMap, branchSalesMap, "支店", "^\\d{3}")){
 			return;
 		}
@@ -41,8 +42,8 @@ public class Sale {
 
 		File dir = new File(args[0]);
 		String[] fileList = dir.list();
-		for(int i=0 ; i<fileList.length ; i++){
-			if(new File(args[0] , fileList[i]).isFile() && fileList[i].matches("\\d{8}.rcd")){
+		for(int i = 0; i < fileList.length; i++){
+			if(new File(args[0], fileList[i]).isFile() && fileList[i].matches("\\d{8}.rcd")){
 				extractSaleFile.add(fileList[i]);
 				String[] con = fileList[i].split("\\.");
 				continueCheckSalesFile.add(Integer.parseInt(con[0]));
@@ -110,8 +111,8 @@ public class Sale {
 		}
 	}
 
-	public static boolean readDefinitionFile(String dirPath , String fileName , HashMap<String , String>code ,
-		HashMap<String , Long>sales , String codeKind , String letter)throws IOException{
+	public static boolean readDefinitionFile(String dirPath, String fileName, HashMap<String, String>code,
+		HashMap<String, Long>sales, String codeKind, String letter){
 		BufferedReader br = null;
 		try{
 			File file = new File(dirPath, fileName);
@@ -146,9 +147,9 @@ public class Sale {
 		return true;
 	}
 
-	public static boolean writeSales(String dirPath, String fileName, HashMap<String , String> nameMap, HashMap<String , Long>salesMap){
-		List<Entry<String , Long>> entries = new ArrayList<Entry<String, Long>>(salesMap.entrySet());
-		Collections.sort(entries , new Comparator<Entry<String, Long>>() {
+	public static boolean writeSales(String dirPath, String fileName, HashMap<String, String> nameMap, HashMap<String, Long>salesMap){
+		List<Entry<String, Long>> entries = new ArrayList<Entry<String, Long>>(salesMap.entrySet());
+		Collections.sort(entries, new Comparator<Entry<String, Long>>(){
 		   @Override
 		   public int compare(Entry<String, Long> o1, Entry<String, Long> o2) {
 		    return o2.getValue().compareTo(o1.getValue());

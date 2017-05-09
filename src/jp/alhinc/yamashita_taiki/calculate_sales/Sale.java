@@ -77,7 +77,6 @@ public class Sale {
 					System.out.println("予期せぬエラーが発生しました");
 					return;
 				}
-
 				long branchvalue = branchSalesMap.get(sales.get(0)).longValue();
 				long commodityvalue = commoditySalesMap.get(sales.get(1)).longValue();
 				long salevalue = Long.parseLong(sales.get(2));
@@ -96,7 +95,6 @@ public class Sale {
 			}
 		}catch(IOException e){
 			System.out.println("予期せぬエラーが発生しました");
-
 		}finally{
 			if(br != null){
 				br.close();

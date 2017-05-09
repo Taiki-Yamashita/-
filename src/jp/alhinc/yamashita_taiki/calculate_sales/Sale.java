@@ -85,8 +85,8 @@ public class Sale {
 				long branchvalue = branchsalesmap.get(sales.get(0)).longValue();
 				long commodityvalue = commoditysalesmap.get(sales.get(1)).longValue();
 				long salevalue = Long.parseLong(sales.get(2));
-				branchvalue+=salevalue;
-				commodityvalue+=salevalue;
+				branchvalue += salevalue;
+				commodityvalue += salevalue;
 				if(String.valueOf(branchvalue).length() > 10){
 					System.out.println("合計金額が10桁を超えました");
 					return;
@@ -109,9 +109,9 @@ public class Sale {
 			if(br == null){
 				System.out.println("予期せぬエラーが発生しました");
 				return;
-			}
+			}else{
 				br.close();
-
+			}
 		}
 		if(!salesOut(args[0] , "branch.out" , branchmap , branchsalesmap)){
 			return;
@@ -154,8 +154,9 @@ public class Sale {
 				if(br == null){
 					System.out.println("予期せぬエラーが発生しました");
 					return false;
-				}
+				}else{
 					br.close();
+				}
 			} catch (IOException e) {
 				System.out.println("予期せぬエラーが発生しました");
 			}
@@ -189,8 +190,9 @@ public class Sale {
 				if(bw == null){
 					System.out.println("予期せぬエラーが発生しました");
 					return false;
-				}
+				}else{
 					bw.close();
+				}
 
 			} catch (IOException e) {
 				System.out.println("予期せぬエラーが発生しました");

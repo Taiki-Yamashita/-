@@ -106,10 +106,7 @@ public class Sale {
 			System.out.println("予期せぬエラーが発生しました");
 
 		}finally{
-			if(br == null){
-				System.out.println("予期せぬエラーが発生しました");
-				return;
-			}else{
+			if(br != null){
 				br.close();
 			}
 		}
@@ -151,10 +148,7 @@ public class Sale {
 
 		}finally{
 			try {
-				if(br == null){
-					System.out.println("予期せぬエラーが発生しました");
-					return false;
-				}else{
+				if(br != null){
 					br.close();
 				}
 			} catch (IOException e) {
@@ -187,10 +181,7 @@ public class Sale {
 			return false;
 		}finally{
 			try {
-				if(bw == null){
-					System.out.println("予期せぬエラーが発生しました");
-					return false;
-				}else{
+				if(bw != null){
 					bw.close();
 				}
 

@@ -106,7 +106,12 @@ public class Sale {
 			System.out.println("予期せぬエラーが発生しました");
 
 		}finally{
-			br.close();
+			if(br == null){
+				System.out.println("予期せぬエラーが発生しました");
+				return;
+			}
+				br.close();
+			
 		}
 		if(!salesOut(args[0] , "branch.out" , branchmap , branchsalesmap)){
 			return;
@@ -146,9 +151,13 @@ public class Sale {
 
 		}finally{
 			try {
-				br.close();
+				if(br == null){
+					System.out.println("予期せぬエラーが発生しました");
+					return false;
+				}
+					br.close();
 			} catch (IOException e) {
-				// TODO 自動生成された catch ブロック
+				System.out.println("予期せぬエラーが発生しました");
 			}
 		}
 			return true;
@@ -177,9 +186,14 @@ public class Sale {
 			return false;
 		}finally{
 			try {
-				bw.close();
+				if(bw == null){
+					System.out.println("予期せぬエラーが発生しました");
+					return false;
+				}
+					bw.close();
+				
 			} catch (IOException e) {
-				// TODO 自動生成された catch ブロック
+				System.out.println("予期せぬエラーが発生しました");
 			}
 		}
 			return true;
